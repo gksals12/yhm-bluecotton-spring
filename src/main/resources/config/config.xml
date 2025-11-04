@@ -5,7 +5,51 @@
         <setting name="jdbcTypeForNull" value="NULL" />
     </settings>
     <typeAliases>
-<!--        <typeAlias type="com.app.bluecotton.domain.vo.MyTestVO" alias="MyTestVO" />-->
+        <!-- member -->
         <typeAlias type="com.app.bluecotton.domain.vo.member.MemberVO" alias="MemberVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.member.MemberProfileVO" alias="MemberProfileVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.member.MemberSocialVO" alias="MemberSocialVO" />
+
+        <!-- post -->
+        <typeAlias type="com.app.bluecotton.domain.vo.post.PostVO" alias="PostVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.post.PostLikeVO" alias="PostLikeVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.post.PostImageVO" alias="PostImageVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.post.PostReportVO" alias="PostReportVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.post.PostCommentVO" alias="PostCommentVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.post.PostCommentLikeVO" alias="PostCommentLikeVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.post.PostCommentReportVO" alias="PostCommentReportVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.post.PostReplyVO" alias="PostReplyVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.post.PostReplyLikeVO" alias="PostReplyLikeVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.post.PostReplyReportVO" alias="PostReplyReportVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.post.PostRecentVO" alias="PostRecentVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.post.PostDraftVO" alias="PostDraftVO" />
+
+        <!-- shop -->
+        <typeAlias type="com.app.bluecotton.domain.vo.shop.ProductVO" alias="ProductVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.shop.ProductLikeVO" alias="ProductLikeVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.shop.ProductImageVO" alias="ProductImageVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.shop.ProductReviewVO" alias="ProductReviewVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.shop.ProductReviewImageVO" alias="ProductReviewImageVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.shop.ProductReviewReportVO" alias="ProductReviewReportVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.shop.PaymentVO" alias="PaymentVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.shop.PaymentSocialVO" alias="PaymentSocialVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.shop.OrderVO" alias="OrderVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.shop.DeliveryVO" alias="DeliveryVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.shop.CartVO" alias="CartVO" />
+
+        <!-- som -->
+        <typeAlias type="com.app.bluecotton.domain.vo.som.SomVO" alias="SomVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.som.SomImageVO" alias="SomImageVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.som.SomReviewVO" alias="SomReviewVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.som.SomReviewImageVO" alias="SomReviewImageVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.som.SomJoinVO" alias="SomJoinVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.som.SomCheckVO" alias="SomCheckVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.som.SomCheckImageVO" alias="SomCheckImageVO" />
+
+        <!-- chat -->
+        <typeAlias type="com.app.bluecotton.domain.vo.chat.ChatVO" alias="ChatVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.chat.ChatMemberVO" alias="ChatMemberVO" />
+        <typeAlias type="com.app.bluecotton.domain.vo.chat.ChatMessageVO" alias="ChatMessageVO" />
+
     </typeAliases>
 </configuration>
