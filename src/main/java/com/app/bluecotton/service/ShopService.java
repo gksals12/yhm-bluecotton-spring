@@ -4,10 +4,11 @@ import com.app.bluecotton.domain.dto.ProductListResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ShopService {
 
-    // 샵 메인 페이지 전체 조회
-    public List<ProductListResponseDTO> getProducts();
+    // 상품 조건 조회
+    public List<ProductListResponseDTO> getProductByFilter(Map<String,Object> params);
 
 }
