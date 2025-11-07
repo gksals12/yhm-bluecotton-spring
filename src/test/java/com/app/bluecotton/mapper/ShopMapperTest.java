@@ -24,4 +24,9 @@ class ShopMapperTest {
         params.put("order", "신상품순");
         log.info("{}",shopMapper.selectProductsByFilter(params));
     }
+
+    @Test
+    void selectProductDetailInfo() {
+
+    }
 }

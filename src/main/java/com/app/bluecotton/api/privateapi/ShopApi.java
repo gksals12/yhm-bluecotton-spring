@@ -2,6 +2,7 @@ package com.app.bluecotton.api.privateapi;
 
 import com.app.bluecotton.domain.dto.ApiResponseDTO;
 import com.app.bluecotton.domain.dto.ProductDetailResponseDTO;
+import com.app.bluecotton.domain.dto.ProductInfoDetailResponseDTO;
 import com.app.bluecotton.domain.dto.ProductListResponseDTO;
 import com.app.bluecotton.service.ShopService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,12 @@ public class ShopApi {
     }
 
     // 상세 페이지 상품 정보 조회
-
+    @GetMapping("read/{id}/info")
+    public ResponseEntity<ApiResponseDTO> getProductInfo(@PathVariable Long id) {
+        log.info("상세 페이지 상품 정보 조회 요청 들어옴: {}",id);
+        ProductInfoDetailResponseDTO productInfoDetailResponseDTO = shopService.getProductDetailInfo(id);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseDTO.of("상품 정보 조회 성공", productInfoDetailResponseDTO));
+    }
 
 
 
