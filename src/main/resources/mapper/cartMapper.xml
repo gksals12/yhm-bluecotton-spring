@@ -27,26 +27,24 @@
         ORDER BY TBC.ID DESC
     </select>
 
-    <select id="selectQuantity" parameterType="Long" resultType="CartVO">
+    <select id="selectQuantity" parameterType="Long" resultType="java.lang.Integer">
         SELECT CART_QUANTITY
         FROM TBL_CART
         WHERE MEMBER_ID = #{memberId}
         AND PRODUCT_ID = #{productId}
     </select>
 
-    <update id="updatePlus" parameterType="com.app.bluecotton.domain.vo.shop.CartVO">
+    <update id="updatePlus" parameterType="CartVO">
         UPDATE TBL_CART
         SET CART_QUANTITY = CART_QUANTITY + #{quantity}
-        WHERE MEMBER_ID = #{memberId}
-        AND PRODUCT_ID = #{productId}
+        WHERE PRODUCT_ID = #{productId} AND MEMBER_ID = #{memberId}
     </update>
 
     <update id="updateMinus" parameterType="CartVO">
         UPDATE TBL_CART
         SET CART_QUANTITY = CART_QUANTITY - #{quantity}
-        WHERE MEMBER_ID = #{memberId}
-        AND PRODUCT_ID = #{productId}
-        AND CART_QUANTITY > 1
+        WHERE PRODUCT_ID = #{productId}
+        AND CART_QUANTITY >= #{quantity}
     </update>
 
     <delete id="delete" parameterType="Long">
@@ -54,4 +52,10 @@
         WHERE MEMBER_ID = #{memberId}
         AND PRODUCT_ID = #{productId}
     </delete>
+
+    <delete id="deleteCartByMember" parameterType="long">
+        DELETE FROM TBL_CART
+        WHERE MEMBER_ID = #{memberId}
+    </delete>
+
 </mapper>

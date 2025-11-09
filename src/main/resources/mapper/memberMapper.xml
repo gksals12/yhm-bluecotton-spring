@@ -7,7 +7,7 @@
         FROM TBL_MEMBER
     </select>
 
-<<<<<<< HEAD
+
 <!--    <select id="existByMemberEmail" parameterType="String" resultType="_boolean">-->
 <!--        SELECT-->
 <!--        ID, MEMBER_NAME, MEMBER_NICKNAME, MEMBER_EMAIL, MEMBER_PASSWORD,-->
@@ -17,8 +17,6 @@
 <!--        WHERE ID = #{id}-->
 <!--    </select>-->
 
-=======
->>>>>>> d9b0b5c551ec2e0f012bad0c156dd37ae70898d4
     <!-- 이메일로 회원 ID 조회 -->
     <select id="selectIdByEmail" parameterType="String" resultType="Long">
         SELECT ID

@@ -41,10 +41,8 @@ public class CartApi {
 
     @PutMapping("minus")
     public ResponseEntity<ApiResponseDTO<CartVO>> updateMinusCart(@RequestBody CartVO cartVO) {
-        log.info("minus req => memberId={}, productId={}, quantity={}",
-                cartVO.getMemberId(), cartVO.getProductId(), cartVO.getQuantity());
-        CartVO updatedData = cartService.updateMinusCart(cartVO);
-        return ResponseEntity.ok(ApiResponseDTO.of("상품 수량 감소 성공", updatedData));
+        cartService.updateMinusCart(cartVO);
+        return ResponseEntity.ok(ApiResponseDTO.of("상품 수량 감소 성공"));
     }
 
     @DeleteMapping("delete")

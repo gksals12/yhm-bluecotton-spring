@@ -11,18 +11,21 @@ import java.util.Optional;
 @Mapper
 public interface CartMapper {
 
-    void insert(CartVO cartVO);
+    public void insert(CartVO cartVO);
 
-    List<CartResponseDTO> selectByMemberId(@Param("memberId") Long memberId);
+    List<CartResponseDTO> selectByMemberId(Long memberId);
 
-    // int 또는 Integer로 수량만 받도록 변경
-    Optional<Integer> selectQuantity(@Param("memberId") Long memberId,
-                                     @Param("productId") Long productId);
+
+    Optional<Integer> selectQuantity( Long memberId,Long productId);
+
 
     public void updatePlus(CartVO cartVO);
 
-    int updateMinus(CartVO cartVO);
+    public void updateMinus(CartVO cartVO);
 
-    public void delete(@Param("memberId") Long memberId, @Param("productId") Long productId);
+    public void delete(Long memberId,  Long productId);
+
+    public void deleteCartByMember(Long memberId);
+
 }
 

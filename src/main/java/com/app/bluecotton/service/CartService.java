@@ -11,7 +11,8 @@ public interface CartService {
     public void addCart(CartVO cartVO);
     public void deleteCart( Long memberId, Long productId);
     public void updatePlusCart(CartVO cartVO);
-    public CartVO updateMinusCart(CartVO cartVO);
+    public void updateMinusCart(CartVO cartVO);
     public List<CartResponseDTO> getCartList(Long memberId);
     public Optional<CartVO> selectCartQuantity(Long memberId, Long productId);
+    public void clearCart(Long memberId);
 }

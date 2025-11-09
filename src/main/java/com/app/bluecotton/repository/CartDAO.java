@@ -31,11 +31,13 @@ public class CartDAO {
         cartMapper.updatePlus(cartVO);
     }
 
-    public int decreaseProduct(CartVO cartVO) {
-        return cartMapper.updateMinus(cartVO);
+    public void decreaseProduct(CartVO cartVO) {
+        cartMapper.updateMinus(cartVO);
     }
 
     public void deleteProduct(Long memberId, Long productId) {
         cartMapper.delete(memberId, productId);
     }
+
+    public void deleteAllByMember(Long memberId) {cartMapper.deleteCartByMember(memberId);}
 }
