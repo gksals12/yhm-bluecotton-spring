@@ -94,8 +94,8 @@
     
 <!-- 샵 메인 페이지 찜하기 추가 -->
     <insert id="insertMyLikedProduct">
-        INSERT INTO TBL_PRODUCT_LIKE (MEMBER_ID, PRODUCT_ID)
-        VALUES (#{memberId}, #{productId})
+        INSERT INTO TBL_PRODUCT_LIKE (ID, MEMBER_ID, PRODUCT_ID)
+        VALUES (SEQ_PRODUCT_LIKE.NEXTVAL, #{memberId}, #{productId})
     </insert>
 
 <!--  샵 메인 페이지 찜하기 삭제  -->
@@ -104,8 +104,14 @@
         WHERE MEMBER_ID = #{memberId} AND PRODUCT_ID = #{productId}
     </delete>
 
+    <select id="selectLikeCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM TBL_PRODUCT_LIKE
+        WHERE MEMBER_ID = #{memberId} AND PRODUCT_ID = #{productId}
+    </select>
+
     <!--  상품 상세 페이지 상단 조회 -->
-    <select id="selectProductDetailHeader" parameterType="Long" resultType="com.app.bluecotton.domain.dto.ProductDetailResponseDTO">
+    <select id="selectProductDetailHeader" parameterType="map" resultType="com.app.bluecotton.domain.dto.ProductDetailResponseDTO">
         SELECT
         TBP.ID,
         TBP.PRODUCT_NAME,
@@ -125,6 +131,14 @@
         FROM TBL_PRODUCT_LIKE TBPL
         WHERE TBPL.PRODUCT_ID = TBP.ID) AS PRODUCT_LIKE_COUNT,
 
+        (CASE
+        WHEN #{memberId} IS NULL THEN 0
+        ELSE (
+        SELECT COUNT(*)
+        FROM TBL_PRODUCT_LIKE TBPL_MY
+        WHERE TBPL_MY.PRODUCT_ID = TBP.ID
+        AND TBPL_MY.MEMBER_ID = #{memberId}
+        ) END) AS IS_LIKED,
 
         (SELECT TBPI.PRODUCT_IMAGE_PATH || TBPI.PRODUCT_IMAGE_NAME
         FROM TBL_PRODUCT_IMAGE TBPI

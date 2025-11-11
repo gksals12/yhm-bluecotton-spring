@@ -8,12 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-
 @Service
 @Transactional(rollbackFor = Exception.class)
 @RequiredArgsConstructor
-
 public class ShopServiceImpl implements ShopService {
+
 
     private final ShopDAO shopDAO;
 
@@ -23,13 +22,8 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public void addLikeProduct(Long memberId, Long productId) {
-        shopDAO.insertMyLikedProduct(memberId, productId);
-    }
-
-    @Override
-    public ProductDetailResponseDTO getProductDetailHeader(Long id) {
-        return shopDAO.findProductDetailHeader(id);
+    public ProductDetailResponseDTO getProductDetailHeader(Long id, Long memberId) {
+        return shopDAO.findProductDetailHeader(id, memberId);
     }
 
     @Override
@@ -38,7 +32,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<ProductReviewDetailResponseDTO> getProductReviewDetail(Map<String,Object> reviewParams) {
+    public List<ProductReviewDetailResponseDTO> getProductReviewDetail(Map<String, Object> reviewParams) {
         return shopDAO.findProductReviewDetail(reviewParams);
     }
 
@@ -47,14 +41,27 @@ public class ShopServiceImpl implements ShopService {
         return shopDAO.findProductReviewStats(id);
     }
 
+    // 찜하기 토글
     @Override
-    public List<ProductListResponseDTO> getLikedProducts(Long memberId) {
-        return shopDAO.findLikedProducts(memberId);
+    @Transactional
+    public void toggleLike(Long memberId, Long productId) {
+        Integer count = shopDAO.findLikeCount(memberId, productId);
+
+        // 찜한 상품이 있을 때
+        if (count > 0) {
+            // 찜 삭제
+            shopDAO.deleteLikedProduct(memberId, productId);
+        }
+        // 찜한 상품 없을 때
+        else {
+            // 찜 추가
+            shopDAO.insertMyLikedProduct(memberId, productId);
+        }
     }
 
     @Override
-    public void unLikeProduct(Long memberId, Long productId) {
-        shopDAO.deleteLikedProduct(memberId, productId);
+    public List<ProductListResponseDTO> getLikedProducts(Long memberId) {
+        return shopDAO.findLikedProducts(memberId);
     }
 
     @Override
@@ -64,3 +71,7 @@ public class ShopServiceImpl implements ShopService {
 
 
 }
+
+
+
+

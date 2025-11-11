@@ -3,8 +3,10 @@ package com.app.bluecotton.repository;
 import com.app.bluecotton.domain.dto.*;
 import com.app.bluecotton.mapper.ShopMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,8 +28,12 @@ public class ShopDAO {
 
 
     // 상세 페이지 상단 조회
-    public ProductDetailResponseDTO findProductDetailHeader(Long id){
-        return shopMapper.selectProductDetailHeader(id);
+    public ProductDetailResponseDTO findProductDetailHeader(Long id, Long  memberId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        params.put("memberId", memberId);
+
+        return shopMapper.selectProductDetailHeader(params);
     }
 
     // 상세 페이지 상품 정보 조회
@@ -43,6 +49,11 @@ public class ShopDAO {
     // 상세 페이지 "리뷰 평점" 조회
     public ProductReviewStatsResponseDTO findProductReviewStats(Long id){
         return shopMapper.selectProductReviewStats(id);
+    }
+
+    // 찜 상태 확인
+    public Integer findLikeCount(@Param("memberId") Long memberId, @Param("productId") Long productId) {
+        return shopMapper.selectLikeCount(memberId, productId);
     }
 
     // 마이페이지(샵) 찜한 상품 조회

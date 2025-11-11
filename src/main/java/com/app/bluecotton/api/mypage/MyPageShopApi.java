@@ -27,13 +27,6 @@ public class MyPageShopApi {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseDTO.of("찜한 상품 조회 성공", likedProducts));
     }
 
-    @DeleteMapping("like/{productId}")
-    public ResponseEntity<ApiResponseDTO> deleteLikedProduct(@PathVariable Long productId){
-        Long memberId = 1L;
-        log.info("찜한 상품 삭제 요청: memberId = {}, productId = {}" , memberId, productId );
-        shopService.unLikeProduct(memberId, productId);
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseDTO.of("찜한 상품 삭제 성공"));
-    }
 
     @GetMapping("review/{memberId}")
     public ResponseEntity<ApiResponseDTO> getMyReviews(@PathVariable Long memberId){

@@ -20,7 +20,7 @@ public interface ShopMapper {
 
 
     // 상세 페이지 상품 상단 조회
-    public ProductDetailResponseDTO selectProductDetailHeader(Long id);
+    public ProductDetailResponseDTO selectProductDetailHeader(Map<String,Object> likeParams);
 
     // 상세 페이지 상품 정보 조회
     public ProductInfoDetailResponseDTO selectProductDetailInfo(Long id);
@@ -37,6 +37,10 @@ public interface ShopMapper {
     // 마이페이지(샵) 찜한 상품 삭제
     // 매개변수 여러개 일때는 이름 지정해야함
     public void deleteMyLikedProduct(@Param("memberId") Long memberId , @Param("productId") Long productId);
+
+
+    // 찜 상태 확인
+    public Integer selectLikeCount(@Param("memberId") Long memberId , @Param("productId") Long productId);
 
     // 마이페이지(샵) 마이리뷰 조회
     public List<MyReviewListDTO> selectMyReview(@Param("memberId") Long memberId);

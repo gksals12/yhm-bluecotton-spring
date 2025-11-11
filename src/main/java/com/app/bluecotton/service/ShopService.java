@@ -10,11 +10,10 @@ public interface ShopService {
     // 메인 페이지 상품 조건 조회
     public List<ProductListResponseDTO> getProductByFilter(Map<String,Object> filterParams);
 
-    // 메인 페이지 상품 찜하기 추가
-    public void addLikeProduct(Long memberId, Long productId);
+
 
     // 상세 페이지 상단 조회
-    public ProductDetailResponseDTO getProductDetailHeader(Long id);
+    public ProductDetailResponseDTO getProductDetailHeader(Long id, Long memberId);
 
     // 상세 페이지 상품 정보 조회
     public ProductInfoDetailResponseDTO getProductDetailInfo(Long id);
@@ -25,11 +24,12 @@ public interface ShopService {
     // 상세 페이지 "리뷰 평점" 조회
     public ProductReviewStatsResponseDTO getProductReviewStats(Long id);
 
+    // 찜 하기 토글
+    public void toggleLike(Long memberId, Long productId);
+
     // 마이페이지(샵) 찜한 상품 조회
     public List<ProductListResponseDTO> getLikedProducts(Long memberId);
 
-    // 마이페이지(샵) 찜한 상품 삭제
-    public void unLikeProduct(Long memberId, Long productId);
 
     // 마이페이지(샵) 마이리뷰 조회
     public List<MyReviewListDTO> getMyReviews(Long id);
