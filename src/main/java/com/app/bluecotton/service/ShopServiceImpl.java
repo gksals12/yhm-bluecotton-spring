@@ -70,6 +70,16 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
+    public void modifyMyReview(Map<String, Object> modifyReview) {
+        shopDAO.updateMyReview(modifyReview);
+    }
+
+    @Override
+    public void deleteMyReview(Long id) {
+        shopDAO.deleteMyReview(id);
+    }
+
+    @Override
     public List<MyPageOrderListDTO> getMyOrders(Long memberId) {
         return shopDAO.findMyOrders(memberId);
     }

@@ -45,6 +45,12 @@ public interface ShopMapper {
     // 마이페이지(샵) 마이리뷰 조회
     public List<MyReviewListDTO> selectMyReview(@Param("memberId") Long memberId);
 
+    // 마이페이지(샵) 마이리뷰 수정
+    public void updateMyReview(Map<String,Object> updateReview);
+
+    // 마이페이지(샵) 마이리뷰 삭제
+    public void deleteMyReview(Long id);
+
 
     // 마이페이지(샵) 구매내역 전체조회
     public List<MyPageOrderListDTO> selectPurchaseList(@Param("memberId") Long memberId);

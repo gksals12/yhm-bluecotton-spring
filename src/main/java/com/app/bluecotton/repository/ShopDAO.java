@@ -72,6 +72,16 @@ public class ShopDAO {
         return shopMapper.selectMyReview(id);
     }
 
+    // 마이페이지(샵) 마이리뷰 수정
+    public void updateMyReview(Map<String,Object> updateReview) {
+        shopMapper.updateMyReview(updateReview);
+    }
+
+    // 마이페이지(샵) 마이리뷰 삭제
+    public void deleteMyReview(Long id){
+        shopMapper.deleteMyReview(id);
+    }
+
 
     // ---- 구매 내역 ----
     // 마이페이지(샵) 구매내역 전체조회

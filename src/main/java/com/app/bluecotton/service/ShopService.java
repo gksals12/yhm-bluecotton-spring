@@ -11,7 +11,6 @@ public interface ShopService {
     public List<ProductListResponseDTO> getProductByFilter(Map<String,Object> filterParams);
 
 
-
     // 상세 페이지 상단 조회
     public ProductDetailResponseDTO getProductDetailHeader(Long id, Long memberId);
 
@@ -33,6 +32,12 @@ public interface ShopService {
 
     // 마이페이지(샵) 마이리뷰 조회
     public List<MyReviewListDTO> getMyReviews(Long id);
+
+    // 마이페이지(샵) 마이리뷰 수정
+    public void modifyMyReview(Map<String,Object> modifyReview);
+
+    // 마이페이지(샵) 마이리뷰 삭제
+    public void deleteMyReview(Long id);
 
 
 

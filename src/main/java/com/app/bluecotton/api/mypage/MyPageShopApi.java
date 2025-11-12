@@ -35,8 +35,20 @@ public class MyPageShopApi {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseDTO.of("마이리뷰 조회 성공", myReviews));
     }
 
+    @PutMapping("review/{reviewId}")
+    public ResponseEntity<ApiResponseDTO> modifyMyReview(@PathVariable Long reviewId, @RequestBody Map<String,Object> modifyReview){
+        modifyReview.put("reviewId", reviewId);
+        shopService.modifyMyReview(modifyReview);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseDTO.of("마이리뷰 수정 성공"));
+    }
 
-    @GetMapping("/order")
+    @DeleteMapping("review/{reviewId}")
+    public ResponseEntity<ApiResponseDTO> deleteMyReview(@PathVariable Long reviewId){
+        shopService.deleteMyReview(reviewId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseDTO.of("마이리뷰 삭제 성공", reviewId));
+    }
+
+    @GetMapping("order")
     public ResponseEntity<ApiResponseDTO> getMyOrders(@RequestParam Long memberId){
         log.info("구매내역 전체조회", memberId);
         List<MyPageOrderListDTO>  myOrders = shopService.getMyOrders(memberId);
@@ -44,14 +56,14 @@ public class MyPageShopApi {
     }
 
 
-    @GetMapping("/review/modal")
-    public ResponseEntity<ApiResponseDTO> getMyReviewModal(@RequestParam Long memberId){
-        log.info("리뷰 모달 조회", memberId);
-        Map<String, Object> myModal = shopService.getReviewModal(memberId);
+    @GetMapping("review/modal")
+    public ResponseEntity<ApiResponseDTO> getMyReviewModal(@RequestParam Long productId){
+        log.info("리뷰 모달 조회", productId);
+        Map<String, Object> myModal = shopService.getReviewModal(productId);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseDTO.of("리뷰 모달 조회 성공",  myModal));
     }
 
-    @PostMapping("/review")
+    @PostMapping("review")
     public ResponseEntity<ApiResponseDTO> createMyReview(@RequestBody MyPageReviewWriteDTO myPageReviewWriteDTO){
         shopService.insertMyReview(myPageReviewWriteDTO);
 
