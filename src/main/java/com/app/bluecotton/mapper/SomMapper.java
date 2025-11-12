@@ -1,10 +1,14 @@
 package com.app.bluecotton.mapper;
 
+import com.app.bluecotton.domain.dto.SomJoinResponseDTO;
+import com.app.bluecotton.domain.dto.SomResponseDTO;
+import com.app.bluecotton.domain.vo.som.SomJoinVO;
 import com.app.bluecotton.domain.vo.som.SomVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Mapper
@@ -15,8 +19,9 @@ public interface SomMapper {
     //  솜 상세 조회
     public Optional<SomVO> selectById(Long somId);
 
-    //  솜 카테고리별 조회
-    public List<SomVO> selectSomByCategory(String somCategory);
+    public List<SomVO> selectSomListByCategoryAndType(Map<String, Object> map);
+
+    public Integer selectSomMaxPage(Map<String, Object> map);
 
     //  솜 전체 조회
     public List<SomVO> selectAll();
@@ -29,4 +34,10 @@ public interface SomMapper {
 
     //  솜 삭제
     public void delete(Long somId);
+
+    public void insertSomJoin(SomJoinVO somJoinVO);
+
+    public List<SomJoinResponseDTO> selectAllSomJoinList(Long somId);
+
+    public void deleteSomJoin(Long somJoinId);
 }

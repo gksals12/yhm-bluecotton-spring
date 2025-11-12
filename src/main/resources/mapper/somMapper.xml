@@ -2,9 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.bluecotton.mapper.SomMapper">
     <!--  솜 등록  -->
-    <insert id="insert" parameterType="SomVO">
+    <insert id="insert" parameterType="SomVO" useGeneratedKeys="false">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT SEQ_SOM.NEXTVAL FROM DUAL
+        </selectKey>
         INSERT INTO TBL_SOM(ID, SOM_TITLE, SOM_CATEGORY, SOM_ADDRESS, SOM_TYPE, SOM_START_DATE, SOM_END_DATE, SOM_CONTENT, MEMBER_ID)
-        VALUES(SEQ_SOM.NEXTVAL, #{somTitle}, #{somCategory}, #{somAddress}, #{somType}, #{somStartDate}, #{somEndDate}, #{somContent}, #{memberId})
+        VALUES(#{id}, #{somTitle}, #{somCategory}, #{somAddress}, #{somType}, #{somStartDate}, #{somEndDate}, #{somContent}, #{memberId})
     </insert>
     <!--  솜 상세 조회  -->
     <select id="selectById" parameterType="Long" resultType="SomVO">
@@ -16,12 +19,50 @@
     <select id="selectSomByCategory" parameterType="String" resultType="SomVO">
         SELECT ID, SOM_TITLE, SOM_CATEGORY, SOM_ADDRESS, SOM_TYPE, SOM_START_DATE, SOM_END_DATE, SOM_LIKE, SOM_CONTENT, MEMBER_ID
         FROM TBL_SOM
-        WHERE SOM_CATEGORY  = #{somCategory}
+        WHERE SOM_CATEGORY = #{somCategory}
+        ORDER BY ID DESC
+    </select>
+
+    <select id="selectSomMaxPage" parameterType="Map" resultType="Integer">
+        SELECT CEIL(COUNT(ID) / 9) AS SOM_MAX_PAGE
+        FROM TBL_SOM
+        <where>
+            <if test="somCategory != null and somCategory != '' and somCategory != 'all'">
+                AND SOM_CATEGORY = #{somCategory}
+            </if>
+            <if test="somType != null and somType != '' and somType != 'all'">
+                AND SOM_TYPE = #{somType}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSomListByCategoryAndType" parameterType="Map" resultType="SomVO">
+        SELECT ID, SOM_TITLE, SOM_CATEGORY, SOM_ADDRESS, SOM_TYPE, SOM_START_DATE, SOM_END_DATE, SOM_LIKE, SOM_CONTENT, MEMBER_ID
+        FROM TBL_SOM
+        <where>
+            <if test="somCategory != null and somCategory != '' and somCategory != 'all'">
+                AND SOM_CATEGORY = #{somCategory}
+            </if>
+            <if test="somType != null and somType != '' and somType != 'all'">
+                AND SOM_TYPE = #{somType}
+            </if>
+        </where>
+        ORDER BY ID DESC
+        OFFSET (#{page} - 1) * 9 ROWS FETCH NEXT 9 ROWS ONLY
+    </select>
+
+    <!--  솜 타입별 조회  -->
+    <select id="selectSomByType" parameterType="String" resultType="SomVO">
+        SELECT ID, SOM_TITLE, SOM_CATEGORY, SOM_ADDRESS, SOM_TYPE, SOM_START_DATE, SOM_END_DATE, SOM_LIKE, SOM_CONTENT, MEMBER_ID
+        FROM TBL_SOM
+        WHERE SOM_TYPE  = #{somType}
+        ORDER BY ID DESC
     </select>
     <!--  솜 전체 조회  -->
     <select id="selectAll" resultType="SomVO">
         SELECT ID, SOM_TITLE, SOM_CATEGORY, SOM_ADDRESS, SOM_TYPE, SOM_START_DATE, SOM_END_DATE, SOM_LIKE, SOM_CONTENT, MEMBER_ID
         FROM TBL_SOM
+        ORDER BY ID DESC
     </select>
     <!--  솜 전체 주소 조회  -->
     <select id="selectAllAddress" resultType="String">
@@ -39,5 +80,78 @@
         DELETE FROM TBL_SOM
         WHERE ID = #{id}
     </delete>
+
+    <!--  솜 인증 작성  -->
+    <insert id="insertSomCheck" parameterType="SomCheckResponseDTO">
+        INSERT INTO TBL_SOM_CHECK (
+        ID,
+        SOM_CHECK_IS_CHECKED,
+        SOM_CHECK_CONTENT,
+        MEMBER_ID,
+        SOM_ID
+        )
+        VALUES (
+        SEQ_SOM_CHECK.NEXTVAL,
+        <!-- boolean → 'Y'/'N' 변환 -->
+        <choose>
+            <when test="somCheckIsChecked"> 'Y' </when>
+            <otherwise> 'N' </otherwise>
+        </choose>,
+        #{somCheckContent},
+        #{memberId},
+        #{somId}
+        )
+    </insert>
+    <!--  솜 인증 조회  -->
+    <select id="selectSomCheckWithImages" parameterType="long" resultMap="SomCheckWithImagesMap">
+        SELECT
+        sc.ID AS sc_id,
+        CASE sc.SOM_CHECK_IS_CHECKED WHEN 'Y' THEN 1 ELSE 0 END AS sc_is_checked,
+        sc.SOM_CHECK_CONTENT AS sc_content,
+        sc.MEMBER_ID AS sc_member_id,
+        sc.SOM_ID AS sc_som_id,
+        sci.ID AS sci_id,
+        sci.SOM_CHECK_IMAGE_PATH AS sci_path,
+        sci.SOM_CHECK_IMAGE_NAME AS sci_name,
+        sci.SOM_CHECK_ID AS sci_check_id
+        FROM TBL_SOM_CHECK sc
+        LEFT JOIN TBL_SOM_CHECK_IMAGE sci ON sc.ID = sci.SOM_CHECK_ID
+        WHERE sc.ID = #{id}
+    </select>
+
+<!--  솜 참여  -->
+    <insert id="insertSomJoin" parameterType="SomJoinVO">
+        INSERT INTO TBL_SOM_JOIN
+        VALUES(SEQ_SOM_JOIN.NEXTVAL, #{somId}, #{memberId})
+    </insert>
+
+    <select id="selectAllSomJoinList" parameterType="Long" resultType="SomJoinResponseDTO">
+        SELECT TBSJ.ID, TBSJ.SOM_ID, TBM.MEMBER_NICKNAME, TBM.MEMBER_NAME, TBMP.MEMBER_PROFILE_PATH, TBMP.MEMBER_PROFILE_NAME
+        FROM TBL_SOM_JOIN TBSJ
+        JOIN TBL_MEMBER TBM
+        ON TBSJ.MEMBER_ID = TBM.ID
+        JOIN TBL_MEMBER_PROFILE TBMP
+        ON TBM.ID = TBMP.MEMBER_ID
+        WHERE SOM_ID = #{somId}
+        ORDER BY TBSJ.ID DESC
+    </select>
+
+    <delete id="deleteSomJoin" parameterType="SomJoinVO">
+        DELETE FROM TBL_SOM_JOIN
+        WHERE SOM_ID = #{somId} AND MEMBER_ID = #{memberId}
+    </delete>
+
+    <resultMap id="SomCheckWithImagesMap" type="com.app.bluecotton.domain.dto.SomCheckResponseDTO">
+        <id property="id" column="sc_id"/>
+        <result property="somCheckIsChecked" column="sc_is_checked" javaType="boolean"/>
+        <result property="somCheckContent" column="sc_content"/>
+        <result property="memberId" column="sc_member_id"/>
+        <result property="somId" column="sc_som_id"/>
+
+        <collection property="somCheckImagePath" ofType="string" column="sci_path"/>
+        <collection property="somCheckImageName" ofType="string" column="sci_name"/>
+        <collection property="somCheckId" ofType="long" column="sci_check_id"/>
+    </resultMap>
+
 </mapper>
 
