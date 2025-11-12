@@ -11,10 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostCommentDTO {
-    private Long commentId;
-    private String commentContent;
-    private Date commentCreateAt;
-    private Long commentLikeCount;
+    private Long id;
+    private String postCommentContent;
+    private Date postCommentCreateAt;
+    private Long postCommentLikeCount;
 
     private String memberNickname;
     private String memberProfileUrl;

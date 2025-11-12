@@ -56,27 +56,6 @@ public interface PostMapper {
     PostModifyDTO findByIdForUpdate(@Param("id") Long id);
     void update(PostVO postVO);
 
-    // 게시글 상세 (로그인)
-    PostDetailDTO selectPostDetailByIdWithLike(@Param("postId") Long postId,
-                                               @Param("memberId") Long memberId);
-
-    // 게시글 상세 (비로그인)
-    PostDetailDTO selectPostDetailWithoutLike(@Param("postId") Long postId);
-
-    // 댓글 목록 (로그인)
-    List<PostCommentDTO> selectCommentsByPostIdWithLike(@Param("postId") Long postId,
-                                                        @Param("memberId") Long memberId);
-
-    // 댓글 목록 (비로그인)
-    List<PostCommentDTO> selectCommentsByPostIdWithoutLike(@Param("postId") Long postId);
-
-    // 대댓글 목록 (로그인)
-    List<PostReplyDTO> selectRepliesByCommentIdWithLike(@Param("commentId") Long commentId,
-                                                        @Param("memberId") Long memberId);
-
-    // 대댓글 목록 (비로그인)
-    List<PostReplyDTO> selectRepliesByCommentIdWithoutLike(@Param("commentId") Long commentId);
-
     // 게시물 좋아요
     int existsLike(@Param("postId") Long postId, @Param("memberId") Long memberId);
     void insertLike(@Param("postId") Long postId, @Param("memberId") Long memberId);
@@ -102,6 +81,11 @@ public interface PostMapper {
     void deleteComment(Long commentId);
     void deleteReply(Long replyId);
 
-    //  테스트
+    //  게시물 상세
     public PostDetailDTO selectTest(Long id);
+
+    public List<PostCommentDTO> selectCommentTest(Long id);
+
+    public List<PostReplyDTO> selectReplyTest(Long id);
+
 }

@@ -9,9 +9,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,11 +37,10 @@ public class PostPrivateApi {
 
         postService.write(postVO, dto.getImageUrls());
 
-        log.info("{}", postVO);
-
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponseDTO.of("게시글이 등록되었습니다.", Map.of("postId", postVO.getId())));
     }
+
 
     // 참여 중 솜 카테고리 목록 조회
     @GetMapping("/categories")
@@ -177,5 +178,13 @@ public class PostPrivateApi {
         Long replyId = payload.get("replyId");
         postService.toggleReplyLike(replyId, currentUser.getId());
         return ResponseEntity.ok(ApiResponseDTO.of("대댓글 좋아요 토글 완료"));
+    }
+
+    @PostMapping("recent/{postId}")
+    public ResponseEntity<ApiResponseDTO> recentPost(Authentication authentication, @PathVariable Long postId) {
+        MemberResponseDTO currentMember = (MemberResponseDTO) authentication.getPrincipal();
+        Long memberId = currentMember.getId();
+        postService.registerRecent(memberId, postId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseDTO.of("최근본글추가"));
     }
 }

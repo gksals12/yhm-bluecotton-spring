@@ -81,33 +81,6 @@ public class PostDAO {
         postMapper.update(postVO);
     }
 
-    /* ===================== 🟦 게시글 상세 ===================== */
-
-    // 로그인 사용자용 (좋아요 여부 포함)
-    public PostDetailDTO findPostDetailByIdWithLike(Long postId, Long memberId) {
-        return postMapper.selectPostDetailByIdWithLike(postId, memberId);
-    }
-
-    public List<PostCommentDTO> findPostCommentsByPostIdWithLike(Long postId, Long memberId) {
-        return postMapper.selectCommentsByPostIdWithLike(postId, memberId);
-    }
-
-    public List<PostReplyDTO> findPostRepliesByCommentIdWithLike(Long commentId, Long memberId) {
-        return postMapper.selectRepliesByCommentIdWithLike(commentId, memberId);
-    }
-
-    // 비로그인 사용자용 (좋아요 제외)
-    public PostDetailDTO findPostDetailWithoutLike(Long postId) {
-        return postMapper.selectPostDetailWithoutLike(postId);
-    }
-
-    public List<PostCommentDTO> findPostCommentsByPostIdWithoutLike(Long postId) {
-        return postMapper.selectCommentsByPostIdWithoutLike(postId);
-    }
-
-    public List<PostReplyDTO> findPostRepliesByCommentIdWithoutLike(Long commentId) {
-        return postMapper.selectRepliesByCommentIdWithoutLike(commentId);
-    }
 
     /* ===================== ❤️ 좋아요 ===================== */
 
@@ -179,4 +152,13 @@ public class PostDAO {
     }
 
     public PostDetailDTO selectTest(Long postId) { return postMapper.selectTest(postId); }
+
+    public List<PostCommentDTO> selectCommentTest(Long postId){
+        return postMapper.selectCommentTest(postId);
+    }
+
+    public List<PostReplyDTO> selectReplyTest(Long commentId){
+        return postMapper.selectReplyTest(commentId);
+    }
+
 }

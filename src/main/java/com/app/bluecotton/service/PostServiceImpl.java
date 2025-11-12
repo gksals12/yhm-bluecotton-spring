@@ -9,6 +9,7 @@ import com.app.bluecotton.repository.PostDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -159,56 +160,30 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDetailDTO selectTest(Long postId) {
-//        조회수 추가
+        // 조회수 + 1
         postDAO.updateReadCount(postId);
-//        최근 본 게시물 테이블 추가
-//        postDAO.registerRecent(memberId, postId);
 
-        PostDetailDTO post;
-        List<PostCommentDTO> comments;
+        // 게시글 정보
+        PostDetailDTO postDetailDTO = postDAO.selectTest(postId);
+        log.info("{}", postDetailDTO);
+        // 댓글 목록
+        List<PostCommentDTO> comments = postDAO.selectCommentTest(postId);
 
-        post = postDAO.findPostDetailWithoutLike(postId);
-        comments = postDAO.findPostCommentsByPostIdWithoutLike(postId);
+        // 댓글 세팅
+        postDetailDTO.setComments(comments);
 
-        // 댓글 + 대댓글 계층 세팅
+        // 각 댓글별 대댓글 조회 및 세팅
         for (PostCommentDTO comment : comments) {
-            List<PostReplyDTO> replies = postDAO.findPostRepliesByCommentIdWithoutLike(comment.getCommentId());
+            List<PostReplyDTO> replies = postDAO.selectReplyTest(comment.getId());
             comment.setReplies(replies);
         }
 
-        post.setComments(comments);
-        return post;
+        return postDetailDTO;
     }
 
-    // 게시글 상세 조회 (로그인 / 비로그인 자동 분기)
+    // 최근 본글 추가
     @Override
-    public PostDetailDTO getPostDetail(Long postId, Long memberId) {
-        // 조회수 증가
-        postDAO.updateReadCount(postId);
-
-        PostDetailDTO post;
-        List<PostCommentDTO> comments;
-
-        if (memberId != null) {
-            // 로그인 사용자 → 좋아요 여부 포함 + 최근  본 글 등록
-            postDAO.registerRecent(memberId, postId);
-            post = postDAO.findPostDetailByIdWithLike(postId, memberId);
-            comments = postDAO.findPostCommentsByPostIdWithLike(postId, memberId);
-        } else {
-            // 비로그인 사용자 → 좋아요 여부 제외
-            post = postDAO.findPostDetailWithoutLike(postId);
-            comments = postDAO.findPostCommentsByPostIdWithoutLike(postId);
-        }
-
-        // 댓글 + 대댓글 계층 세팅
-        for (PostCommentDTO comment : comments) {
-            List<PostReplyDTO> replies = (memberId != null)
-                    ? postDAO.findPostRepliesByCommentIdWithLike(comment.getCommentId(), memberId)
-                    : postDAO.findPostRepliesByCommentIdWithoutLike(comment.getCommentId());
-            comment.setReplies(replies);
-        }
-
-        post.setComments(comments);
-        return post;
+    public void registerRecent(Long memberId, Long postId) {
+        postDAO.registerRecent(memberId, postId);
     }
 }

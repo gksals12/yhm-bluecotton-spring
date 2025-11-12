@@ -40,9 +40,6 @@ public interface PostService {
     // 게시글 수정
     void modifyPost(PostVO postVO);
 
-    // 게시물 상세 조회
-    PostDetailDTO getPostDetail(Long postId, Long memberId);
-
     // 댓글 등록
     void insertComment(PostCommentVO postCommentVO);
 
@@ -64,6 +61,10 @@ public interface PostService {
     // 답글 좋아요
     void toggleReplyLike(Long ReplyId, Long memberId);
 
-    //  테스트
+    // 게시글 상세 조회
     public PostDetailDTO selectTest(Long postId);
+
+    // 최근본글 추가
+    public void registerRecent(Long memberId, Long postId);
+
 }
