@@ -94,7 +94,6 @@ public class SomServiceImpl implements SomService {
         List<SomResponseDTO> somList = somDAO.findSomListByCategoryAndType(map).stream().map((som) -> {
             SomResponseDTO somResponseDTO = new SomResponseDTO(som);
             List<SomImageVO> somImages = somImageService.selectImagesBySomId(som.getId());
-            log.info("{}", map.get("memberEmail").toString());
             Long currentMemberId = memberService.getMemberIdByMemberEmail(map.get("memberEmail").toString());
             SomLikeVO somLikeVO = new SomLikeVO();
             somLikeVO.setSomId(som.getId());
