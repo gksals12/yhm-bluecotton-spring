@@ -93,4 +93,19 @@
         WHERE ID = #{id}
     </delete>
 
+    <!-- 회원이 가진 캔디 조회   -->
+    <select id="findCandyByMemberId" parameterType="long" resultType="int">
+        SELECT MEMBER_CANDY
+        FROM TBL_MEMBER
+        WHERE ID = #{memberId}
+        FOR UPDATE
+    </select>
+
+    <!-- 회원 캔디 차감   -->
+    <update id="useCandy">
+        UPDATE TBL_MEMBER
+        SET MEMBER_CANDY = MEMBER_CANDY - #{amount}
+        WHERE ID = #{memberId}
+    </update>
+
 </mapper>

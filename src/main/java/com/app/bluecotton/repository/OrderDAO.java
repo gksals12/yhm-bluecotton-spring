@@ -65,4 +65,18 @@ public class OrderDAO {
     public void  detachOrderFromCart(Long memberId) {
         orderMapper.detachOrderFromCart(memberId);
     }
+
+    public Integer findTotalCandyAmountForPendingOrders(Long memberId) {
+        return orderMapper.findTotalCandyAmountForPendingOrders(memberId);
+    }
+
+
+    public List<Long> findPendingCandyOrderIdsByMemberId(Long memberId) {
+        return orderMapper.findPendingCandyOrderIdsByMemberId(memberId);
+    }
+
+    // 주문 상태 일괄 변경
+    public void updateOrderStatusForIds(List<Long> orderIds, String status){
+        orderMapper.updateOrderStatusForIds(orderIds, status);
+    }
 }
