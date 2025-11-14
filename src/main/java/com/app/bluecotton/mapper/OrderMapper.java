@@ -33,7 +33,7 @@ public interface OrderMapper {
 
     public List<Long> findPendingCandyOrderIdsByMemberId(Long memberId);
 
-    public void updateOrderStatusForIds( List<Long> orderIds, String status);
+    public void updateOrderStatusForIds( List<Long> orderIds, String orderStatus);
 
     public void detachOrderFromCart(Long memberId);
 

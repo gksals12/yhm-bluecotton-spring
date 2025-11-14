@@ -34,7 +34,7 @@ public class OrderDAO {
         Long orderId = orderCheckoutDTO.getId();
 
         List<OrderItemDTO> items = orderCheckoutDTO.getItems();
-        if(items!=null && items.isEmpty()){
+        if(items!=null && !items.isEmpty()){
             orderMapper.insertOrderHeader(orderId, items);
         }
         return orderId;
@@ -49,8 +49,6 @@ public class OrderDAO {
     }
 
     public List<OrderDetailDTO> selectOrderDetails(Long id, Long memberId) {
-        // OrderMapper의 새로운 메서드를 호출합니다.
-        // 이 쿼리는 단일 주문이라도 리스트 형태로 반환하는 것이 일반적입니다.
         return orderMapper.selectOrderDetailsByMemberIdAndOrderId(id, memberId);
     }
 
@@ -76,7 +74,7 @@ public class OrderDAO {
     }
 
     // 주문 상태 일괄 변경
-    public void updateOrderStatusForIds(List<Long> orderIds, String status){
-        orderMapper.updateOrderStatusForIds(orderIds, status);
+    public void updateOrderStatusForIds(List<Long> orderIds, String orderStatus){
+        orderMapper.updateOrderStatusForIds(orderIds, orderStatus);
     }
 }

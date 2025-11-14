@@ -5,8 +5,6 @@ import com.app.bluecotton.domain.vo.member.MemberProfileVO;
 import com.app.bluecotton.domain.vo.member.MemberSocialVO;
 import com.app.bluecotton.domain.vo.member.MemberVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -41,9 +39,5 @@ public interface MemberMapper {
 
     //  전체 회원 주소 조회
     public List<String> selectAllAddress ();
-
-    public Integer findCandyByMemberId(Long memberId);
-
-    public void useCandy(Long memberId, @Param("amount") Integer amount);
 
 }
