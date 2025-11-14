@@ -1,6 +1,7 @@
 package com.app.bluecotton.repository;
 
 import com.app.bluecotton.domain.dto.*;
+import com.app.bluecotton.domain.vo.shop.ProductReviewReportVO;
 import com.app.bluecotton.mapper.ShopMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Param;
@@ -130,6 +131,13 @@ public class ShopDAO {
         params.put("memberId", memberId);
         return shopMapper.existProductReview(params);
     }
+
+
+    // 상품 리뷰 댓글 신고하기
+    public void reportProductReview(ProductReviewReportVO productReviewReportVO) {
+        shopMapper.productReviewReport(productReviewReportVO);
+    }
+
 
 
 }

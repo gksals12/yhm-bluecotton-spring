@@ -1,6 +1,7 @@
 package com.app.bluecotton.api.privateapi;
 
 import com.app.bluecotton.domain.dto.*;
+import com.app.bluecotton.domain.vo.shop.ProductReviewReportVO;
 import com.app.bluecotton.service.ShopService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -86,6 +87,16 @@ public class ShopApi {
     }
 
 
+    // 상품 리뷰 댓글 신고
+    @PostMapping("read/review/report")
+    public ResponseEntity<ApiResponseDTO> createProductReview(@RequestBody ProductReviewReportVO productReviewReportVO){
+        shopService.reportProductReview(productReviewReportVO);
+        return ResponseEntity.status(HttpStatus.OK).body((ApiResponseDTO.of("댓글 신고 완료", productReviewReportVO)));
+    }
+
+
+    // 리뷰 댓글 도움돼요 상태 여부 조회
+//    @GetMapping("review")
 
 
 }

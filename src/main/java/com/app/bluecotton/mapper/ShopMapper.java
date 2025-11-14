@@ -1,6 +1,7 @@
 package com.app.bluecotton.mapper;
 
 import com.app.bluecotton.domain.dto.*;
+import com.app.bluecotton.domain.vo.shop.ProductReviewReportVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -81,6 +82,13 @@ public interface ShopMapper {
     // 구매하기 유효성 검사
     public int existProductReview(Map<String,Object> reviewParams);
 
+
+    // 상품 리뷰 댓글 신고
+    public void productReviewReport(ProductReviewReportVO productReviewReportVO);
+
+
+    // 리뷰 댓글 도움돼요 상태 여부 조회
+    public ProductReviewRecommendDTO selectProductReviewRecommend(Map<String,Object> recommend);
 
 
 }

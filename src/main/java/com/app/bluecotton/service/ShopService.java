@@ -1,6 +1,7 @@
 package com.app.bluecotton.service;
 
 import com.app.bluecotton.domain.dto.*;
+import com.app.bluecotton.domain.vo.shop.ProductReviewReportVO;
 
 import java.util.List;
 import java.util.Map;
@@ -68,5 +69,12 @@ public interface ShopService {
     public int existProductReview(Long productId, Long memberId);
 
     public void writeReview(MyPageReviewWriteDTO dto);
+
+    // 상품 리뷰 댓글 신고하기
+    public void reportProductReview(ProductReviewReportVO productReviewReportVO);
+
+
+    // 리뷰 댓글 도움돼요 상태 여부 조회
+    public ProductReviewRecommendDTO ProductReviewRecommendDTO(Map<String,Object> recommend);
 
 }

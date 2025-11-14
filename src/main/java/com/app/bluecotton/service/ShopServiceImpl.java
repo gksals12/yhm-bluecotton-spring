@@ -1,6 +1,7 @@
 package com.app.bluecotton.service;
 
 import com.app.bluecotton.domain.dto.*;
+import com.app.bluecotton.domain.vo.shop.ProductReviewReportVO;
 import com.app.bluecotton.repository.ShopDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -134,6 +135,16 @@ public class ShopServiceImpl implements ShopService {
         // 문제 없다면 리뷰 저장
         shopDAO.insertMyReview(dto);
 
+    }
+
+    @Override
+    public void reportProductReview(ProductReviewReportVO productReviewReportVO) {
+        shopDAO.reportProductReview(productReviewReportVO);
+    }
+
+    @Override
+    public ProductReviewRecommendDTO ProductReviewRecommendDTO(Map<String, Object> recommend) {
+        return null;
     }
 
 
