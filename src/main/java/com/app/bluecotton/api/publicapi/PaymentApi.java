@@ -54,13 +54,13 @@ public class PaymentApi {
 
 
     @PostMapping("verify")
-    public ResponseEntity<ApiResponseDTO<PortOneDTO>> verify(
-            @RequestBody @Valid PaymentVerifyRequest request) {
-
+    public ResponseEntity<ApiResponseDTO<PortOneDTO>> verify(@RequestBody @Valid PaymentVerifyRequest request) {
 
         paymentService.verifyPayment(request);
 
         return ResponseEntity.ok(ApiResponseDTO.of("결제 검증 및 처리 성공", null));
     }
+
+
 
 }

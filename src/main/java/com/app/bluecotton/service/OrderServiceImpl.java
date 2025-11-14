@@ -104,10 +104,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void clearCartAfterOrder(Long memberId) {
-        // 1) 주문 테이블에서 카트 FK 끊기 (ORDER_STATUS='Y' 대상)
+        log.info("clearCartAfterOrder 실행: memberId={}", memberId);
+
+
         orderDAO.detachOrderFromCart(memberId);
 
+
+        int deleted = cartDAO.deleteAllByMember(memberId);
+        log.info("장바구니 삭제 row 수 = {}", deleted);
+
+
+        List<CartResponseDTO> remain = cartDAO.selectAllCart(memberId);
+        log.info(" 장바구니 남은 상품 수 = {}", remain.size());
     }
+
 
     @Override
     public List<OrderDetailDTO> selectOrderDetailsById(Long id, Long memberId) {

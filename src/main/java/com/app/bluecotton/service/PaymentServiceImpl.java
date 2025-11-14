@@ -153,7 +153,6 @@ public class PaymentServiceImpl implements PaymentService {
 
         Long paymentId = payment.getId();
 
-//        orderService.clearCartAfterOrder(memberId);
 
         PaymentSocialVO social = new PaymentSocialVO();
         social.setPaymentId(paymentId);
@@ -161,11 +160,12 @@ public class PaymentServiceImpl implements PaymentService {
         social.setPaymentSocialNumber(impUid);
         paymentSocialService.create(social);
 
-        log.info("PaymentSocial 저장 및 장바구니 정리 완료: paymentId={}, pg={}, impUid={}",
+        log.info("PaymentSocial 저장 완료: paymentId={}, pg={}, impUid={}",
                 paymentId, portOnePaymentInfo.getResponse().getPgProvider(), impUid);
 
         return portOnePaymentInfo;
     }
+
 
 
     @Override
@@ -215,8 +215,9 @@ public class PaymentServiceImpl implements PaymentService {
     public void verifyPayment(PaymentVerifyRequest request) {
         String impUid = request.getImpUid();
         String merchantUid = request.getMerchantUid();
+        Long memberId = request.getMemberId();
 
-        if(impUid == null || merchantUid == null) {
+        if (impUid == null || merchantUid == null) {
             throw new IllegalArgumentException("결제 검증에 필요한 데이터 누락");
         }
 
@@ -224,6 +225,16 @@ public class PaymentServiceImpl implements PaymentService {
         paymentData.put("imp_uid", impUid);
         paymentData.put("merchant_uid", merchantUid);
 
-        processPayment(paymentData);
+
+        PortOneDTO dto = processPayment(paymentData);
+
+        if (memberId != null) {
+            orderService.clearCartAfterOrder(memberId);
+            log.info(" 장바구니 삭제 완료: memberId={}", memberId);
+        } else {
+            log.warn("장바구니 삭제를 못 했습니다. memberId가 null입니다. merchantUid={}", merchantUid);
+        }
     }
+
+
 }

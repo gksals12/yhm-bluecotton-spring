@@ -25,7 +25,7 @@ public interface CartMapper {
 
     public void delete(Long memberId,  Long productId);
 
-    public void deleteCartByMember(Long memberId);
+    public int deleteCartByMember(Long memberId);
 
 }
 
