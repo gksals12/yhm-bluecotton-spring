@@ -75,7 +75,6 @@ public class SomApi {
         Integer maxPage = somService.selectSomMaxPage(params);
         resultData.put("somList", listData);
         resultData.put("maxPage", maxPage);
-        log.info("category: {}", somCategory);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseDTO.of(message, resultData));
     }
 
