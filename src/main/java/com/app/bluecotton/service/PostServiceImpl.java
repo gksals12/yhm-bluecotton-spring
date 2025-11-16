@@ -209,8 +209,6 @@ public class PostServiceImpl implements PostService {
         return vo;
     }
 
-
-
     // 댓글 좋아요 토글
     @Override
     public void toggleCommentLike(Long commentId, Long memberId) {
